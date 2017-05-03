@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.ejb.EJB;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,20 +22,7 @@ import com.airline.service.FlightService;
 public class FlightDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-    @EJB   
-	private FlightService fs;
-    
-    @EJB   
-	private FlightService fs2;
-    
-    @EJB   
-	private FlightService fs3;
-    
-    @EJB   
-	private FlightService fs4;
-    
-    @EJB   
-	private FlightService fs5;
+	private FlightService fs = null;
     
 
     /**
@@ -51,26 +41,19 @@ public class FlightDetails extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.println("FlightDetails servlet has been called");
 
-		fs.setFrom("London"); 
-		out.println(fs.getFrom() + " " + fs.getTo() + " " + fs.getPrice() + " " 
-		    + fs.getNumOfSeats() + " " + fs.getId());
+		try{
+			Context context = new InitialContext();
+			Object fObj = context.lookup("java:global/ejbcourse1/FlightService!com.airline.service.FlightService");
+			fs = (FlightService) fObj;
+		}catch(NamingException e){
+			System.out.println("Naming exception has occured when trying to lookup the FlyingService EJB");
+		    e.printStackTrace();
+		}
 		
-		fs2.setTo("Moscow");
-		out.println(fs.getFrom() + " " + fs.getTo() + " " + fs.getPrice() + " " 
-		    + fs.getNumOfSeats() + " " + fs.getId());
-		
-		fs3.setPrice(100);
-		out.println(fs.getFrom() + " " + fs.getTo() + " " + fs.getPrice() + " " 
-		    + fs.getNumOfSeats() + " " + fs.getId());
-		
-		fs4.setNumOfSeats(5);
-		out.println(fs.getFrom() + " " + fs.getTo() + " " + fs.getPrice() + " " 
-		    + fs.getNumOfSeats() + " " + fs.getId());
-		
-		fs5.setId(1);
-		out.println(fs.getFrom() + " " + fs.getTo() + " " + fs.getPrice() + " " 
-		    + fs.getNumOfSeats() + " " + fs.getId());
-
+		if(fs != null){
+			
+			out.println("Flight details: " + fs.getFrom() + " " + fs.getTo());
+		}
 	}
 
 	/**

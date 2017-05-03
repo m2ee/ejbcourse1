@@ -33,6 +33,8 @@ public class FlightDetails extends HttpServlet {
     
     @EJB   
 	private FlightService fs5;
+    
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -49,20 +51,26 @@ public class FlightDetails extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.println("FlightDetails servlet has been called");
 
-		fs.setFrom("London");
-		out.println(fs.getFrom());
+		fs.setFrom("London"); 
+		out.println(fs.getFrom() + " " + fs.getTo() + " " + fs.getPrice() + " " 
+		    + fs.getNumOfSeats() + " " + fs.getId());
 		
-		fs2.setFrom("Paris");
-		out.println(fs3.getFrom());
+		fs2.setTo("Moscow");
+		out.println(fs.getFrom() + " " + fs.getTo() + " " + fs.getPrice() + " " 
+		    + fs.getNumOfSeats() + " " + fs.getId());
 		
-		fs3.setFrom("Rome");
-		out.println(fs4.getFrom());
+		fs3.setPrice(100);
+		out.println(fs.getFrom() + " " + fs.getTo() + " " + fs.getPrice() + " " 
+		    + fs.getNumOfSeats() + " " + fs.getId());
 		
-		fs4.setFrom("Moscow");
-		out.println(fs5.getFrom());
+		fs4.setNumOfSeats(5);
+		out.println(fs.getFrom() + " " + fs.getTo() + " " + fs.getPrice() + " " 
+		    + fs.getNumOfSeats() + " " + fs.getId());
 		
-		fs5.setFrom("Belgrade");
-		out.println(fs.getFrom());
+		fs5.setId(1);
+		out.println(fs.getFrom() + " " + fs.getTo() + " " + fs.getPrice() + " " 
+		    + fs.getNumOfSeats() + " " + fs.getId());
+
 	}
 
 	/**

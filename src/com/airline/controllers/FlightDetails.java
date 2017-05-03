@@ -21,6 +21,18 @@ public class FlightDetails extends HttpServlet {
 	
     @EJB   
 	private FlightService fs;
+    
+    @EJB   
+	private FlightService fs2;
+    
+    @EJB   
+	private FlightService fs3;
+    
+    @EJB   
+	private FlightService fs4;
+    
+    @EJB   
+	private FlightService fs5;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,7 +48,20 @@ public class FlightDetails extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 		out.println("FlightDetails servlet has been called");
-		out.println(fs.getAirplaneModel());
+
+		fs.setFrom("London");
+		out.println(fs.getFrom());
+		
+		fs2.setFrom("Paris");
+		out.println(fs3.getFrom());
+		
+		fs3.setFrom("Rome");
+		out.println(fs4.getFrom());
+		
+		fs4.setFrom("Moscow");
+		out.println(fs5.getFrom());
+		
+		fs5.setFrom("Belgrade");
 		out.println(fs.getFrom());
 	}
 

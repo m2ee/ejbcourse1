@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.ejb.EJB;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.airline.service.FlightLocal;
+import com.airline.service.FlightServiceStatelessBean;
 
 /**
  * Servlet implementation class FlightDetails
@@ -19,17 +23,10 @@ import com.airline.service.FlightLocal;
 public class FlightDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	@EJB(beanName="FlightServiceStatelessBean")
 	private FlightLocal fs = null;
 	
-	@EJB(beanName="FlightServiceStatelessBean")
-	private FlightLocal fs2 = null;
-	
-	@EJB(beanName="FlightServiceStatefulBean")
 	private FlightLocal fsStateful = null;
 	
-	@EJB(beanName="FlightServiceStatefulBean")
-	private FlightLocal fsStateful2 = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -48,22 +45,28 @@ public class FlightDetails extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 		out.println("FlightDetails servlet has been called");
-        
+		
+		try {
+			
+			Context context = new InitialContext();
+			
+		Object fsObject = context.lookup("java:global/ejbcourse1/flightStateless!com.airline.service.FlightLocal");
+		fs = (FlightLocal) fsObject;
+		
+		Object fsStatefulObject = context.lookup("java:global/ejbcourse1/flightStateful!com.airline.service.FlightLocal");
+		fsStateful = (FlightLocal) fsStatefulObject;
+		}
+        catch(NamingException e){
+        	System.out.println("Naming exception has occured in the lookup of EJBs");
+        	e.printStackTrace();
+        }
+		
 		//Stateless
-		out.println("Flight details: " + fs.getFrom() + " to " + fs.getTo());
-		
-		fs2.setFrom("Rome"); fs2.setTo("Moscow");
-		
 		out.println("Flight details: " + fs.getFrom() + " to " + fs.getTo());
 		
 		//Stateful
 		out.println("Flight details: " + fsStateful.getFrom() + " to " + fsStateful.getTo());
-
-		fsStateful2.setFrom("Rome"); fsStateful2.setTo("Moscow");
 		
-		out.println("Flight details: " + fsStateful.getFrom() + " to " + fsStateful.getTo());
-		
-		out.println("Flight details: " + fsStateful2.getFrom() + " to " + fsStateful2.getTo());
 	}
 
 	/**

@@ -5,7 +5,7 @@ import javax.ejb.Stateful;
 /**
  * Session Bean implementation class FlightService
  */
-@Stateful(name="FlightServiceStatefulBean")
+@Stateful(name="flightStateful")
 public class FlightServiceStatefulBean implements FlightLocal {
 
 	/**

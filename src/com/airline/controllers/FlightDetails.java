@@ -55,6 +55,7 @@ public class FlightDetails extends HttpServlet {
 		
 		Object fsStatefulObject = context.lookup("java:global/ejbcourse1/flightStateful!com.airline.service.FlightLocal");
 		fsStateful = (FlightLocal) fsStatefulObject;
+		
 		}
         catch(NamingException e){
         	System.out.println("Naming exception has occured in the lookup of EJBs");

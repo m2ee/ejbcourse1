@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.airline.service.FlightLocal;
-import com.airline.service.FlightRemote;
-
 
 /**
  * Servlet implementation class FlightDetails
@@ -20,41 +18,42 @@ import com.airline.service.FlightRemote;
 @WebServlet("/FlightDetails")
 public class FlightDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	@EJB
+
+	@EJB(beanName="FlightServiceStatelessBean")
 	private FlightLocal fs = null;
 	
-	@EJB
-	private FlightRemote fsRemote = null;
-    
-
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public FlightDetails() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	@EJB(beanName="FlightServiceStatefulBean")
+	private FlightLocal fsRemote = null;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public FlightDetails() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		PrintWriter out = response.getWriter();
 		out.println("FlightDetails servlet has been called");
-		
-			
+
 		out.println("Flight details: " + fs.getFrom() + " to " + fs.getTo());
 		out.println("Flight details: " + fsRemote.getFrom() + " to " + fsRemote.getTo());
-
 
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
